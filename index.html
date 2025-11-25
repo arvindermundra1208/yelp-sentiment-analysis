@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Data Mining Final Project - Yelp Review Classification">
+    <title>Yelp Review Sentiment Analysis | Group 16</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">Yelp Sentiment Analysis</div>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#eda">Analysis</a></li>
+                <li><a href="#models">Models</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#insights">Insights</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Yelp Full Review Classification</h1>
+                <p class="subtitle">ECEN758 Final Project • Fall 2025 • Data Mining and Analysis</p>
+
+                <div class="team-info">
+                    <h3>Group 16 Team Members</h3>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <h4>Akanksha Shah</h4>
+                        </div>
+                        <div class="team-member">
+                            <h4>Arvinder Singh Mundra</h4>
+                        </div>
+                        <div class="team-member">
+                            <h4>Kyren Liu</h4>
+                        </div>
+                        <div class="team-member">
+                            <h4>Tasfin Mahmud</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                    <a href="https://github.com/" target="_blank" class="btn">View on GitHub</a>
+                    <a href="report.pdf" target="_blank" class="btn" style="background: var(--secondary-gradient);">View
+                        Full Report</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section id="overview">
+        <div class="container">
+            <div class="section-header">
+                <h2>Project Overview</h2>
+            </div>
+
+            <div class="card">
+                <h3>Goal & Methodology</h3>
+                <p>
+                    The primary objective of this project is to develop and evaluate robust deep learning models for
+                    predicting Yelp review star ratings (0–4) based solely on the textual content of the reviews. We
+                    implemented and compared two distinct architectures: a standard <strong>Bidirectional Long
+                        Short-Term Memory (BiLSTM)</strong> network and a hybrid <strong>CNN + BiLSTM</strong> model.
+                    This comparative analysis aims to understand how sequential recurrent models differ from
+                    convolution-enhanced sequence models in capturing local semantic patterns, contextual dependencies,
+                    and the overall sentiment structure inherent in user-generated content.
+                </p>
+                <p>
+                    <strong>Dataset Composition:</strong> The study utilizes the Yelp Review Full dataset, comprising
+                    700,000 reviews (650,000 training, 50,000 testing). The dataset is perfectly balanced, with 130,000
+                    reviews for each star rating, ensuring that the models are trained without class bias.
+                </p>
+                <p>
+                    <strong>Preprocessing Pipeline:</strong> To ensure high-quality input features, we applied a
+                    rigorous preprocessing pipeline. This included the removal of invalid rows, text normalization
+                    (lowercasing, whitespace standardization), and the replacement of URLs and emoticons with special
+                    tokens. We constructed a vocabulary of the top 20,000 most frequent words (min frequency = 5) and
+                    standardized input sequences by padding or truncating them to a fixed length of 650 tokens, covering
+                    99% of the review length distribution.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exploratory Data Analysis -->
+    <section id="eda">
+        <div class="container">
+            <div class="section-header">
+                <h2>Exploratory Data Analysis</h2>
+            </div>
+
+            <div class="card">
+                <h3>Rating Distribution</h3>
+                <p>
+                    A fundamental step in our analysis was verifying the class distribution. As illustrated in
+                    <strong>Figure 1</strong>, the dataset is <span class="highlight">perfectly balanced</span>, with
+                    each of the five rating categories (0-4) containing exactly 130,000 reviews. This balance is
+                    critical for training deep learning models, as it prevents the learning bias often seen in skewed
+                    datasets where models favor the majority class.
+                </p>
+                <div class="image-container">
+                    <img src="images/rating-distribution.png" alt="Rating Distribution Bar Chart">
+                </div>
+                <p class="figure-caption text-center"><strong>Figure 1:</strong> Balanced distribution of Yelp reviews
+                    across all 5 rating classes.</p>
+            </div>
+
+            <div class="card">
+                <h3>Sentiment Analysis Per Rating</h3>
+                <p>
+                    We performed a granular sentiment analysis by extracting the most significant words for each rating
+                    class using Logistic Regression coefficients. The results reveal a clear semantic progression:
+                </p>
+                <p>
+                    For <strong>Rating 0</strong>, the vocabulary is dominated by strongly negative terms like
+                    "horrible," "worst," and "disgusting," reflecting intense dissatisfaction. <strong>Rating 1</strong>
+                    shows a shift to milder negative terms such as "bland," "mediocre," and "meh." <strong>Rating
+                        2</strong> acts as a neutral pivot, characterized by words like "okay," "average," and "decent."
+                    Finally, <strong>Ratings 3 and 4</strong> exhibit a strong positive sentiment with terms like
+                    "excellent," "delicious," and "amazing."
+                </p>
+                <div class="image-container">
+                    <img src="images/sentiment-wordclouds.png" alt="Sentiment Word Clouds per Rating">
+                </div>
+                <p class="figure-caption text-center"><strong>Figure 2:</strong> Word clouds visualizing the most
+                    prominent sentiment-bearing words for each rating.</p>
+                <p>
+                    This monotonic shift from harsh negativity to strong positivity confirms that the dataset contains
+                    distinct, learnable lexical patterns for each class, although the boundary between adjacent ratings
+                    (e.g., 2 vs 3) remains linguistically subtle.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Top Frequency Sentiment Bearing Words</h3>
+                <p>
+                    Analyzing the top 25 lemmatized sentiment-bearing words reveals a general positivity bias in common
+                    language usage. Words like "good," "great," "nice," and "friendly" appear with much higher frequency
+                    than negative counterparts. This suggests that while negative reviews are distinct, the overall
+                    corpus is heavily populated with positive descriptors, potentially making the detection of subtle
+                    negative signals in mixed reviews more challenging.
+                </p>
+                <div class="image-container">
+                    <img src="images/top-sentiment-words.png" alt="Top 25 Sentiment Words">
+                </div>
+                <p class="figure-caption text-center"><strong>Figure 3:</strong> The top 25 most frequent
+                    sentiment-bearing words in the dataset.</p>
+            </div>
+
+            <div class="card">
+                <h3>Dimensionality Reduction (SVD)</h3>
+                <p>
+                    To visualize the separability of the classes, we projected a subset of reviews into a 2D space using
+                    TF-IDF and Truncated SVD. The resulting scatter plot shows a dense, overlapping cluster rather than
+                    distinct islands of ratings.
+                </p>
+                <div class="image-container">
+                    <img src="images/svd-projection.png" alt="SVD Projection of Reviews">
+                </div>
+                <p class="figure-caption text-center"><strong>Figure 4:</strong> 2D SVD projection of review text
+                    features showing significant class overlap.</p>
+                <p>
+                    This significant overlap indicates that simple linear combinations of word frequencies are
+                    insufficient to distinguish between ratings, particularly for mid-range scores. This finding
+                    strongly motivates the use of non-linear deep learning models like LSTMs and CNNs, which can capture
+                    complex, high-dimensional relationships and contextual nuances that linear projections miss.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Implementations -->
+    <section id="models">
+        <div class="container">
+            <div class="section-header">
+                <h2>Model Architectures</h2>
+            </div>
+
+            <div class="card">
+                <h3>BiLSTM Architecture</h3>
+                <div class="image-container">
+                    <img src="images/bilstm-architecture.png" alt="BiLSTM Architecture Diagram">
+                </div>
+                <p class="figure-caption text-center"><strong>Figure 5:</strong> Architecture of the Bidirectional LSTM
+                    model.</p>
+                <h4 style="color: var(--accent-blue); margin-top: 1rem;">Technical Specifications</h4>
+                <ul class="feature-list">
+                    <li><strong>Embedding Layer:</strong> 128-dimensional dense vector representations.</li>
+                    <li><strong>Bidirectional LSTM:</strong> 2 layers with 64 hidden units per direction, allowing the
+                        model to capture context from both past and future tokens.</li>
+                    <li><strong>Regularization:</strong> Dropout rate of 0.2 applied to prevent overfitting.</li>
+                    <li><strong>Output:</strong> Fully connected layer mapping the aggregated hidden states to 5 class
+                        probabilities.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>CNN-BiLSTM Architecture</h3>
+                <div class="grid-2">
+                    <div>
+                        <p>
+                            The hybrid <strong>CNN-BiLSTM</strong> model is designed to leverage the strengths of both
+                            convolutional and recurrent networks. It introduces <strong>1D Convolutional Layers</strong>
+                            at the input stage to act as feature extractors, identifying local n-gram patterns (e.g.,
+                            "service was slow," "food tasted great") regardless of their position in the text.
+                        </p>
+                        <p>
+                            These local features are then downsampled via <strong>Max-Pooling</strong> and fed into the
+                            BiLSTM layers, which integrate them into a global context. This architecture aims to combine
+                            the precise local pattern detection of CNNs with the long-range dependency modeling of
+                            LSTMs.
+                        </p>
+                    </div>
+                    <div>
+                        <ul class="feature-list">
+                            <li><strong>Conv1D Layers:</strong> multiple filters to capture local semantic features.
+                            </li>
+                            <li><strong>Max-Pooling:</strong> Reduces dimensionality and highlights the most salient
+                                features.</li>
+                            <li><strong>BiLSTM Integration:</strong> Aggregates the sequence of extracted features.</li>
+                            <li><strong>Hypothesis:</strong> This hybrid approach should theoretically converge faster
+                                and handle specific key-phrase driven sentiment better than a pure LSTM.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Training Configuration</h3>
+                <div class="grid-3">
+                    <div class="stat-card">
+                        <span class="stat-label">Vocabulary</span>
+                        <p style="margin-top: 0.5rem; font-weight: 600;">20,000 Words</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Optimizer</span>
+                        <p style="margin-top: 0.5rem; font-weight: 600;">Adam</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Tuning</span>
+                        <p style="margin-top: 0.5rem; font-weight: 600;">Optuna</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>BiLSTM Training Performance</h3>
+                <div class="grid-2">
+                    <div class="image-container">
+                        <img src="images/bilstm-training-loss-curve.png" alt="BiLSTM Loss">
+                        <p class="figure-caption text-center"><strong>Figure 6:</strong> BiLSTM Training vs Validation
+                            Loss.</p>
+                    </div>
+                    <div class="image-container">
+                        <img src="images/bilstm-training-accuracy-curve.png" alt="BiLSTM Accuracy">
+                        <p class="figure-caption text-center"><strong>Figure 7:</strong> BiLSTM Training vs Validation
+                            Accuracy.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem;">
+                    The training curves indicate a stable learning process. The validation loss stabilizes around epoch
+                    4-5, while training loss continues to decrease. This divergence suggests the onset of mild
+                    overfitting, which was mitigated by saving the model weights at the point of lowest validation loss.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>CNN-BiLSTM Training Performance</h3>
+                <div class="grid-2">
+                    <div class="image-container">
+                        <img src="images/cnn-bilstm-training-loss.png" alt="CNN-BiLSTM Loss">
+                        <p class="figure-caption text-center"><strong>Figure 8:</strong> CNN-BiLSTM Training vs
+                            Validation Loss.</p>
+                    </div>
+                    <div class="image-container">
+                        <img src="images/cnn-bilstm-training-accuracy.png" alt="CNN-BiLSTM Accuracy">
+                        <p class="figure-caption text-center"><strong>Figure 9:</strong> CNN-BiLSTM Training vs
+                            Validation Accuracy.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem;">
+                    The CNN-BiLSTM exhibits a steeper initial drop in loss, confirming that the convolutional layers
+                    effectively extract informative features early in training. The validation metrics stabilize
+                    similarly to the BiLSTM, indicating that while the hybrid model learns faster, the overall capacity
+                    for generalization on this specific dataset is comparable to the pure BiLSTM.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results">
+        <div class="container">
+            <div class="section-header">
+                <h2>Model Performance Results</h2>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">67.62%</span>
+                    <span class="stat-label">BiLSTM Test Accuracy</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">66.68%</span>
+                    <span class="stat-label">CNN-BiLSTM Test Accuracy</span>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>BiLSTM Confusion Matrix</h3>
+                    <div class="image-container">
+                        <img src="images/bilstm-confusion-matrix-final.png" alt="BiLSTM Confusion Matrix">
+                    </div>
+                    <p class="figure-caption text-center"><strong>Figure 10:</strong> Confusion Matrix for the BiLSTM
+                        model showing class-wise predictions.</p>
+                </div>
+                <div class="card">
+                    <h3>CNN-BiLSTM Confusion Matrix</h3>
+                    <div class="image-container">
+                        <img src="images/confusion-matrix-cnn-bilstm.jpg" alt="CNN-BiLSTM Confusion Matrix">
+                    </div>
+                    <p class="figure-caption text-center"><strong>Figure 11:</strong> Confusion Matrix for the
+                        CNN-BiLSTM model.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Error Analysis & Key Findings</h3>
+                <p>
+                    A detailed analysis of the confusion matrices reveals consistent patterns across both architectures.
+                    The models perform exceptionally well on the extreme ends of the spectrum (Ratings 0 and 4), where
+                    sentiment is unambiguous. However, significant confusion exists between adjacent mid-range classes
+                    (e.g., predicting 2 when the true label is 1 or 3).
+                </p>
+                <p>
+                    Notably, <strong>91.5% of all errors are off by only a single star rating</strong>. This indicates
+                    that the models have successfully learned the underlying sentiment direction but struggle with the
+                    fine-grained distinctions that even human annotators might find subjective. Qualitative analysis
+                    shows that mixed-sentiment reviews (e.g., "great food but terrible service") are the primary source
+                    of these errors, as the models must weigh conflicting signals.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Model Interpretation Examples</h3>
+                <div class="code-block">
+                    <p><strong>Review:</strong> "The food was terrible and overpriced."</p>
+                    <p>✓ Prediction: Rating 0 (Strongly Negative) - <em>Correctly identified key negative sentiment
+                            markers.</em></p>
+                </div>
+                <div class="code-block">
+                    <p><strong>Review:</strong> "Absolutely amazing experience! Loved the food and the staff."</p>
+                    <p>✓ Prediction: Rating 4 (Strongly Positive) - <em>Correctly latched onto high-intensity positive
+                            adjectives.</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Insights -->
+    <section id="insights">
+        <div class="container">
+            <div class="section-header">
+                <h2>Business Applications & Insights</h2>
+            </div>
+
+            <div class="card">
+                <h3>Real-World Application: DoorDash & Yelp</h3>
+                <p>
+                    While developed using Yelp data, the applicability of this model extends to any platform relying on
+                    user feedback, such as <strong>DoorDash</strong>. In a business context, this model serves as a
+                    powerful engine for <strong>Rating Inference</strong> and <strong>Sentiment Mining</strong>.
+                </p>
+                <p>
+                    For platforms like DoorDash, integrating this model into the <strong>Merchant Portal</strong> would
+                    allow for the automated analysis of unstructured feedback. By predicting star ratings from text, the
+                    system can validate the consistency of user ratings or estimate satisfaction scores for unrated
+                    comments. More importantly, it enables the detection of "emerging low-sentiment stores" by tracking
+                    shifts in predicted sentiment over time, providing early warnings to merchants before average star
+                    ratings significantly decline.
+                </p>
+                <p>
+                    Ultimately, this transforms the model from a simple academic classifier into a strategic tool for
+                    <strong>Customer Experience Management</strong>, enabling data-driven operational improvements based
+                    on large-scale, automated feedback analysis.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion & Future Work -->
+    <section id="conclusion">
+        <div class="container">
+            <div class="section-header">
+                <h2>Conclusion & Future Work</h2>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Conclusion</h3>
+                    <p>
+                        This project successfully implemented and evaluated BiLSTM and CNN-BiLSTM architectures for
+                        fine-grained
+                        sentiment classification. Both models achieved comparable performance (~67% accuracy),
+                        demonstrating strong
+                        capabilities in detecting clear sentiment extremes (ratings 0 and 4) while highlighting the
+                        inherent challenge
+                        of distinguishing between adjacent mid-range ratings.
+                    </p>
+                    <p>
+                        The study concludes that while the hybrid CNN-BiLSTM offers faster convergence and more
+                        structured error patterns,
+                        the added architectural complexity does not yield a significant accuracy advantage over the
+                        standard BiLSTM
+                        baseline for this specific task.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Future Directions</h3>
+                    <ul class="feature-list">
+                        <li><strong>Transformer Models:</strong> Implementing BERT or RoBERTa to leverage pre-trained
+                            contextual embeddings for better handling of long-range dependencies and subtle sentiment
+                            shifts.</li>
+                        <li><strong>Ordinal Regression:</strong> Adopting ordinal-aware loss functions to penalize large
+                            prediction errors (e.g., predicting 0 instead of 4) more heavily than minor shifts.</li>
+                        <li><strong>Aspect-Based Analysis:</strong> Extending the model to detect sentiment per aspect
+                            (Food, Service, Ambiance) to provide more granular actionable insights for businesses.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Group 16 - Data Mining Final Project</p>
+            <p>Yelp Review Classification using BiLSTM and CNN-BiLSTM Models</p>
+            <p style="margin-top: 1rem;">
+                <a href="https://github.com/" target="_blank" rel="noopener">View Code on GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Smooth scroll script -->
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .stat-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
