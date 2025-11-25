@@ -7,7 +7,7 @@
 
 A comprehensive deep learning project implementing and comparing **BiLSTM** and **CNN-BiLSTM** architectures for fine-grained sentiment classification on the Yelp Review Full dataset. This repository contains both the research implementation and a professional project website showcasing our findings.
 
-## 🎯 Project Overview
+## Project Overview
 
 This project addresses the challenge of predicting fine-grained star ratings (0-4) from user-written Yelp reviews using state-of-the-art deep learning techniques. We developed and evaluated two neural architectures under identical experimental conditions to understand the trade-offs between model complexity and performance.
 
@@ -19,7 +19,7 @@ This project addresses the challenge of predicting fine-grained star ratings (0-
 - **Best Performance**: 67.62% test accuracy (BiLSTM)
 - **Balanced Dataset**: 130,000 reviews per rating class
 
-## 📊 Research Findings
+## Research Findings
 
 ### Model Performance Comparison
 
@@ -40,7 +40,7 @@ This project addresses the challenge of predicting fine-grained star ratings (0-
 
 5. **Class-Specific Performance**: Both models excelled at extreme ratings (0 and 4) but faced challenges with mid-range ratings (1-3) where sentiment is more ambiguous.
 
-## 🏗️ Architecture Details
+## Architecture Details
 
 ### BiLSTM Model
 ```
@@ -77,7 +77,7 @@ Input (650 tokens)
 - Dropout: 0.3
 - Optimizer: Adam (lr=5e-4, weight decay=1e-5)
 
-## 🔬 Methodology
+## Methodology
 
 ### Data Preprocessing Pipeline
 
@@ -115,7 +115,7 @@ We employed **Optuna** for systematic hyperparameter tuning across:
 - **F1-Score**: Harmonic mean of precision and recall
 - **Confusion Matrix**: Detailed error pattern analysis
 
-## 📈 Experimental Results
+## Experimental Results
 
 ### Performance by Rating Class
 
@@ -133,7 +133,7 @@ We employed **Optuna** for systematic hyperparameter tuning across:
 - **CNN-BiLSTM**: Faster initial convergence, slightly higher validation loss at convergence
 - **Convergence**: Both models stabilized within 10 epochs
 
-## 🌐 Project Website
+## Project Website
 
 This repository includes a professional, responsive website showcasing the complete project analysis, visualizations, and findings.
 
@@ -163,7 +163,7 @@ yelp-sentiment-analysis-website/
 └── README.md               # This file
 ```
 
-## 🚀 Deployment
+## Deployment
 
 ### GitHub Pages (Recommended)
 
@@ -186,7 +186,7 @@ yelp-sentiment-analysis-website/
 
 See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
 
-## 💼 Business Applications
+## Business Applications
 
 ### Real-World Use Cases
 
@@ -206,7 +206,7 @@ See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
    - DoorDash merchant portal for restaurant feedback analysis
    - Yelp business dashboard for sentiment monitoring
 
-## 🔮 Future Directions
+## Future Directions
 
 1. **Transformer Models**: Implement BERT or RoBERTa for better contextual understanding
 2. **Ordinal Regression**: Use ordinal-aware loss functions to respect rating order
@@ -214,7 +214,7 @@ See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
 4. **Multi-Task Learning**: Simultaneously predict ratings and extract key opinion phrases
 5. **Attention Mechanisms**: Add attention layers to identify influential review segments
 
-## 👥 Team
+## Team
 
 **Group 16 - ECEN758 Data Mining and Analysis**
 
@@ -223,7 +223,7 @@ See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
 - **Kyren Liu** - Texas A&M University
 - **Tasfin Mahmud** - Texas A&M University
 
-## 📚 References
+## References
 
 1. G. Rao et al., "LSTM with sentence representations for document-level sentiment classification," *Neurocomputing*, vol. 308, pp. 49-57, 2018.
 
@@ -231,11 +231,11 @@ See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
 
 3. B. He et al., "Bi-directional LSTM-GRU based time series forecasting approach," *Int. J. Comput. Sci. Inf. Technol.*, vol. 3, no. 2, pp. 222-231, 2024.
 
-## 📄 License
+## License
 
 This project is created for academic purposes as part of a Data Mining course final project at Texas A&M University.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Dataset**: Yelp Review Full dataset from Hugging Face
 - **Framework**: PyTorch for deep learning implementation
@@ -244,4 +244,4 @@ This project is created for academic purposes as part of a Data Mining course fi
 
 ---
 
-**Built with ❤️ by Group 16 | Fall 2025 | Texas A&M University**
+**Group 16 | Fall 2025 | Texas A&M University**
