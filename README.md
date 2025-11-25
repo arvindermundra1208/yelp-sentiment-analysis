@@ -163,29 +163,6 @@ yelp-sentiment-analysis-website/
 └── README.md               # This file
 ```
 
-## Deployment
-
-### GitHub Pages (Recommended)
-
-1. **Create GitHub Repository**
-   ```bash
-   # Create a new public repository on GitHub
-   ```
-
-2. **Upload Files**
-   - Upload all files from this directory
-   - Ensure `images/` folder is included
-
-3. **Enable GitHub Pages**
-   - Go to Settings → Pages
-   - Select `main` branch as source
-   - Save and wait ~2 minutes
-
-4. **Access Website**
-   - Your site will be live at: `https://[username].github.io/[repo-name]/`
-
-See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
-
 ## Business Applications
 
 ### Real-World Use Cases
