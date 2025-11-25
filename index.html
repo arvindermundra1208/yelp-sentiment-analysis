@@ -202,6 +202,15 @@
                 </div>
                 <p class="figure-caption text-center"><strong>Figure 5:</strong> Architecture of the Bidirectional LSTM
                     model.</p>
+                <p style="margin-top: 1.5rem;">
+                    The BiLSTM model serves as our baseline architecture for sentiment classification. Unlike
+                    traditional unidirectional LSTMs that process text in a single direction, the bidirectional approach
+                    reads each review both forward and backward, enabling the model to capture contextual information
+                    from both past and future tokens simultaneously. This is particularly valuable for sentiment
+                    analysis, where critical opinion markers may appear anywhere in the review text—whether at the
+                    beginning ("Unfortunately, the service was..."), middle ("The food was great, but the wait
+                    time..."), or end ("...overall, highly disappointing").
+                </p>
                 <h4 style="color: var(--accent-blue); margin-top: 1rem;">Technical Specifications</h4>
                 <ul class="feature-list">
                     <li><strong>Embedding Layer:</strong> 128-dimensional dense vector representations.</li>
@@ -215,41 +224,47 @@
 
             <div class="card">
                 <h3>CNN-BiLSTM Architecture</h3>
-                <div class="grid-2">
-                    <div>
-                        <p>
-                            The hybrid <strong>CNN-BiLSTM</strong> model is designed to leverage the strengths of both
-                            convolutional and recurrent networks. It introduces <strong>1D Convolutional Layers</strong>
-                            at the input stage to act as feature extractors, identifying local n-gram patterns (e.g.,
-                            "service was slow," "food tasted great") regardless of their position in the text.
-                        </p>
-                        <p>
-                            These local features are then downsampled via <strong>Max-Pooling</strong> and fed into the
-                            BiLSTM layers, which integrate them into a global context. This architecture aims to combine
-                            the precise local pattern detection of CNNs with the long-range dependency modeling of
-                            LSTMs.
-                        </p>
-                    </div>
-                    <div>
-                        <ul class="feature-list">
-                            <li><strong>Conv1D Layers:</strong> multiple filters to capture local semantic features.
-                            </li>
-                            <li><strong>Max-Pooling:</strong> Reduces dimensionality and highlights the most salient
-                                features.</li>
-                            <li><strong>BiLSTM Integration:</strong> Aggregates the sequence of extracted features.</li>
-                            <li><strong>Hypothesis:</strong> This hybrid approach should theoretically converge faster
-                                and handle specific key-phrase driven sentiment better than a pure LSTM.</li>
-                        </ul>
-                    </div>
+                <div class="image-container">
+                    <img src="images/cnn-bilstm-architecture.jpg" alt="CNN-BiLSTM Architecture Diagram">
                 </div>
+                <p class="figure-caption text-center"><strong>Figure 5b:</strong> Architecture of the CNN-BiLSTM hybrid
+                    model showing the convolutional feature extraction followed by bidirectional LSTM processing.</p>
+                <p style="margin-top: 1.5rem;">
+                    The hybrid <strong>CNN-BiLSTM</strong> model is designed to leverage the strengths of both
+                    convolutional and recurrent networks. It introduces <strong>1D Convolutional Layers</strong>
+                    at the input stage to act as feature extractors, identifying local n-gram patterns (e.g.,
+                    "service was slow," "food tasted great") regardless of their position in the text.
+                    These local features are then downsampled via <strong>Max-Pooling</strong> and fed into the
+                    BiLSTM layers, which integrate them into a global context. This architecture aims to combine
+                    the precise local pattern detection of CNNs with the long-range dependency modeling of
+                    LSTMs.
+                </p>
+                <h4 style="color: var(--accent-blue); margin-top: 1rem;">Technical Specifications</h4>
+                <ul class="feature-list">
+                    <li><strong>Embedding Layer:</strong> 64-dimensional dense vector representations.</li>
+                    <li><strong>Conv1D Layers:</strong> 64 filters with kernel size 3 to capture local semantic
+                        features.</li>
+                    <li><strong>Max-Pooling:</strong> Pool size 2 to reduce dimensionality and highlight the most
+                        salient features.</li>
+                    <li><strong>Bidirectional LSTM:</strong> 2 layers with 128 hidden units per direction for sequence
+                        modeling.</li>
+                    <li><strong>Regularization:</strong> Dropout rate of 0.3 applied to prevent overfitting.</li>
+                    <li><strong>Output:</strong> Fully connected layer mapping to 5 class probabilities.</li>
+                    <li><strong>Hypothesis:</strong> This hybrid approach should theoretically converge faster and
+                        handle specific key-phrase driven sentiment better than a pure LSTM.</li>
+                </ul>
             </div>
 
             <div class="card">
                 <h3>Training Configuration</h3>
-                <div class="grid-3">
+                <div class="grid-4">
                     <div class="stat-card">
                         <span class="stat-label">Vocabulary</span>
                         <p style="margin-top: 0.5rem; font-weight: 600;">20,000 Words</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Max Sequence Length</span>
+                        <p style="margin-top: 0.5rem; font-weight: 600;">650 Tokens</p>
                     </div>
                     <div class="stat-card">
                         <span class="stat-label">Optimizer</span>
@@ -266,7 +281,7 @@
                 <h3>BiLSTM Training Performance</h3>
                 <div class="grid-2">
                     <div class="image-container">
-                        <img src="images/bilstm-training-loss-curve.png" alt="BiLSTM Loss">
+                        <img src="images/bilstm-training-validation-loss.png" alt="BiLSTM Loss">
                         <p class="figure-caption text-center"><strong>Figure 6:</strong> BiLSTM Training vs Validation
                             Loss.</p>
                     </div>
@@ -277,9 +292,11 @@
                     </div>
                 </div>
                 <p style="margin-top: 1rem;">
-                    The training curves indicate a stable learning process. The validation loss stabilizes around epoch
-                    4-5, while training loss continues to decrease. This divergence suggests the onset of mild
-                    overfitting, which was mitigated by saving the model weights at the point of lowest validation loss.
+                    The training and validation loss curves demonstrate that learning remained consistent throughout the
+                    training period. The validation loss closely tracks the training loss, indicating that the model
+                    generalizes well without significant overfitting. Both curves converge smoothly, and the minimal gap
+                    between training and validation metrics suggests that the selected hyperparameters (dropout rate of
+                    0.2, moderate model capacity) effectively balance model expressiveness with regularization.
                 </p>
             </div>
 
@@ -363,6 +380,7 @@
 
             <div class="card">
                 <h3>Model Interpretation Examples</h3>
+                <p style="margin-bottom: 1.5rem;"><strong>Model Used:</strong> BiLSTM</p>
                 <div class="code-block">
                     <p><strong>Review:</strong> "The food was terrible and overpriced."</p>
                     <p>✓ Prediction: Rating 0 (Strongly Negative) - <em>Correctly identified key negative sentiment
@@ -442,10 +460,19 @@
                         <li><strong>Transformer Models:</strong> Implementing BERT or RoBERTa to leverage pre-trained
                             contextual embeddings for better handling of long-range dependencies and subtle sentiment
                             shifts.</li>
-                        <li><strong>Ordinal Regression:</strong> Adopting ordinal-aware loss functions to penalize large
-                            prediction errors (e.g., predicting 0 instead of 4) more heavily than minor shifts.</li>
-                        <li><strong>Aspect-Based Analysis:</strong> Extending the model to detect sentiment per aspect
-                            (Food, Service, Ambiance) to provide more granular actionable insights for businesses.</li>
+                        <li><strong>Ordinal Regression:</strong> Adopting ordinal-aware loss functions (e.g., ordinal
+                            cross-entropy or cumulative link models) to explicitly model the ordered nature of star
+                            ratings. This approach penalizes large prediction errors (e.g., predicting 0 instead of 4)
+                            more heavily than adjacent-class errors, potentially improving rating accuracy by respecting
+                            the inherent ordinality of the target variable.</li>
+                        <li><strong>Aspect-Based Sentiment Analysis (ABSA):</strong> Extending the model to perform
+                            fine-grained sentiment detection at the aspect level (Food, Service, Ambiance, Price, etc.).
+                            This would enable businesses to understand not just overall sentiment, but specifically
+                            which dimensions of the customer experience are driving positive or negative reviews,
+                            providing more actionable insights for operational improvements.</li>
+                        <li><strong>Multi-Task Learning:</strong> Training the model to simultaneously predict star
+                            ratings and extract key opinion phrases, enabling richer feedback analysis and better
+                            interpretability of predictions.</li>
                     </ul>
                 </div>
             </div>
