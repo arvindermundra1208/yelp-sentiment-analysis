@@ -365,6 +365,24 @@ section {
   gap: 2rem;
 }
 
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ==================== IMAGES ==================== */
 .image-container {
   position: relative;
@@ -389,7 +407,7 @@ section {
 
 /* ==================== CODE BLOCKS ==================== */
 .code-block {
-  background: #1e293b;
+  background: #f1f5f9;
   border-radius: var(--border-radius-sm);
   padding: 1.5rem;
   margin: 1.5rem 0;
@@ -398,7 +416,8 @@ section {
   font-family: 'Courier New', monospace;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #e2e8f0;
+  color: #1e293b;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 
