@@ -12,7 +12,7 @@ Yelp Full Review Dataset - https://huggingface.co/datasets/Yelp/yelp_review_full
 ## Project Overview
 The goal of this project is to develop and evaluate deep learning models for predicting Yelp review star ratings (0–4) using only the review text. Specifically, we implement and compare two architectures, a standard Bidirection Long Short-Term Memory (LSTM) network and a hybrid CNN + BiLSTM model, to understand how sequential recurrent models differ from convolution-enhanced sequence models in capturing local patterns, contextual information, and semantic structure in user reviews. Both models are trained and tested on the Yelp Review Full dataset, and their performance is assessed using metrics such as accuracy, precision, recall, and F1-score to determine which architecture better handles the complexities of multi-class text classification.
 
-## Environement Setup
+## Environment Setup
 
 ### Python Version
 
@@ -40,6 +40,11 @@ Install SpaCy English Model:
 ```
 python3 -m spacy download en_core_web_sm
 ```
+Or
+
+```
+python -m spacy download en_core_web_sm
+```
 
 ## Pre Trained Models
 
@@ -59,6 +64,11 @@ Execute the following command to run the test script
 
 ```
 python3 test_script.py
+```
+Or
+
+```
+python test_script.py
 ```
 
 > Note: During evaluation, the script generates confusion matrix heatmaps for both models. These plots are displayed in a separate popup window using matplotlib. Since plt.show() is a blocking operation, the script will pause at this point until the window is manually closed.
