@@ -2,11 +2,7 @@
 
 Website : https://arvindermundra1208.github.io/yelp-sentiment-analysis/
 
-## Group Members
-- Akanksha Shah (UIN - 136005001)
-- Arvinder Singh Mundra (UIN - 335007465)
-- Kyren Liu (UIN - 830004917)
-- Tasfin Mahmud (UIN - 437004953)
+Arvinder Singh Mundra
 
 ## Project Dataset
 Yelp Full Review Dataset - https://huggingface.co/datasets/Yelp/yelp_review_full
