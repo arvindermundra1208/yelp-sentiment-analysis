@@ -1,14 +1,15 @@
-# Data Mining ECEN 758 Final Project Group 16
-
-Website : https://arvindermundra1208.github.io/yelp-sentiment-analysis/
-
-Arvinder Singh Mundra
+# Yelp Review Rating Prediction using Deep Learning  
+**Created by: Arvinder Singh Mundra**
 
 ## Project Dataset
 Yelp Full Review Dataset - https://huggingface.co/datasets/Yelp/yelp_review_full
 
 ## Project Overview
-The goal of this project is to develop and evaluate deep learning models for predicting Yelp review star ratings (0–4) using only the review text. Specifically, we implement and compare two architectures, a standard Bidirection Long Short-Term Memory (LSTM) network and a hybrid CNN + BiLSTM model, to understand how sequential recurrent models differ from convolution-enhanced sequence models in capturing local patterns, contextual information, and semantic structure in user reviews. Both models are trained and tested on the Yelp Review Full dataset, and their performance is assessed using metrics such as accuracy, precision, recall, and F1-score to determine which architecture better handles the complexities of multi-class text classification.
+The goal of this project is to develop and evaluate deep learning models for predicting Yelp review star ratings (0–4) using only the review text. Specifically, two architectures are implemented and compared: a standard Bidirectional Long Short-Term Memory (BiLSTM) network and a hybrid CNN + BiLSTM model.  
+
+The objective is to analyze how sequential recurrent models differ from convolution-enhanced sequence models in capturing local patterns, contextual dependencies, and semantic structure in user reviews.  
+
+Both models are trained and evaluated on the Yelp Review Full dataset using metrics such as accuracy, precision, recall, and F1-score to determine which architecture performs better for multi-class text classification.
 
 ## Environment Setup
 
